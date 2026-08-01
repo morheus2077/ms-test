@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { initialCourses } from '@/lib/courses-data'
 import { 
   Plus, 
   Search, 
@@ -117,6 +118,7 @@ export default function AdminLessonsPage() {
     description: '',
     videoUrl: '',
     thumbnail: '',
+    course: '',
     module: '',
     level: '',
     duration: '',
@@ -148,6 +150,7 @@ export default function AdminLessonsPage() {
       description: '',
       videoUrl: '',
       thumbnail: '',
+      course: '',
       module: '',
       level: '',
       duration: '',
@@ -179,6 +182,24 @@ export default function AdminLessonsPage() {
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label>Curso</Label>
+                <Select
+                  value={newLesson.course}
+                  onValueChange={(value) => setNewLesson({ ...newLesson, course: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione um curso" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {initialCourses.map((course) => (
+                      <SelectItem key={course.id} value={course.id}>
+                        {course.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
               <div className="grid gap-2">
                 <Label htmlFor="title">Título da Aula</Label>
                 <Input
