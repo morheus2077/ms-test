@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
+import { LanguageDetector } from '@/components/language-detector'
 import './globals.css'
 
 const inter = Inter({ 
@@ -30,14 +31,16 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning className="bg-background">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <LanguageDetector>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </LanguageDetector>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

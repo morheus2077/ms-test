@@ -9,8 +9,10 @@ import {
   PlayCircle, 
   TrendingUp,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  Plus
 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import {
   LineChart,
   Line,
@@ -102,11 +104,17 @@ export default function AdminDashboard() {
   return (
     <div ref={containerRef} className="max-w-7xl mx-auto">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Dashboard do Admin</h1>
-        <p className="text-muted-foreground">
-          Visão geral dos cursos da plataforma
-        </p>
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Dashboard do Admin</h1>
+          <p className="text-muted-foreground">
+            Visão geral dos cursos da plataforma
+          </p>
+        </div>
+        <Button className="flex items-center gap-2">
+          <Plus className="h-5 w-5" />
+          Adicionar Curso
+        </Button>
       </div>
 
       {/* Stats Cards */}
