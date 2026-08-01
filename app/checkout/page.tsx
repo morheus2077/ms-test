@@ -15,7 +15,8 @@ import {
   CreditCard, 
   Loader2,
   CheckCircle2,
-  Sparkles
+  Sparkles,
+  Globe
 } from 'lucide-react'
 import { plans } from '@/components/pricing'
 
@@ -25,7 +26,7 @@ function CheckoutContent() {
   const planId = searchParams.get('plan') || 'premium'
   const plan = plans.find((p) => p.id === planId) || plans[1]
 
-  const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'emola'>('mpesa')
+  const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'emola' | 'paypal'>('mpesa')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [holderName, setHolderName] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
@@ -80,9 +81,11 @@ function CheckoutContent() {
     setError('')
 
     // Validation
-    if (!phoneNumber || phoneNumber.length < 9) {
-      setError('Por favor, insira um número de telefone válido.')
-      return
+    if (paymentMethod !== 'paypal') {
+      if (!phoneNumber || phoneNumber.length < 9) {
+        setError('Por favor, insira um número de telefone válido.')
+        return
+      }
     }
     if (!holderName || holderName.length < 3) {
       setError('Por favor, insira o nome do titular.')
@@ -167,7 +170,7 @@ function CheckoutContent() {
                 <Label className="text-base font-semibold mb-4 block">
                   Método de Pagamento
                 </Label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod('mpesa')}
@@ -205,29 +208,50 @@ function CheckoutContent() {
                     <div className="font-semibold">E-Mola</div>
                     <div className="text-sm text-muted-foreground">Movitel</div>
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('paypal')}
+                    className={`relative p-6 rounded-2xl border-2 transition-all duration-300 ${
+                      paymentMethod === 'paypal'
+                        ? 'border-primary bg-primary/5'
+                        : 'border-border hover:border-primary/50'
+                    }`}
+                  >
+                    {paymentMethod === 'paypal' && (
+                      <div className="absolute top-3 right-3">
+                        <Check className="h-5 w-5 text-primary" />
+                      </div>
+                    )}
+                    <Globe className="h-8 w-8 text-blue-600 mb-3" />
+                    <div className="font-semibold">PayPal</div>
+                    <div className="text-sm text-muted-foreground">Internacional</div>
+                  </button>
                 </div>
               </div>
 
-              {/* Phone number */}
-              <div>
-                <Label htmlFor="phone" className="text-base font-semibold mb-2 block">
-                  Número de Telefone
-                </Label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
-                    +258
-                  </span>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="84 123 4567"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ''))}
-                    className="pl-16 py-6 text-lg rounded-xl"
-                    maxLength={9}
-                  />
+              {/* Phone number (only for mobile payments) */}
+              {paymentMethod !== 'paypal' && (
+                <div>
+                  <Label htmlFor="phone" className="text-base font-semibold mb-2 block">
+                    Número de Telefone
+                  </Label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
+                      +258
+                    </span>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="84 123 4567"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ''))}
+                      className="pl-16 py-6 text-lg rounded-xl"
+                      maxLength={9}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Holder name */}
               <div>
