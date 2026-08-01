@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -111,9 +112,11 @@ export default function AdminDashboard() {
             Visão geral dos cursos da plataforma
           </p>
         </div>
-        <Button className="flex items-center gap-2">
-          <Plus className="h-5 w-5" />
-          Adicionar Curso
+        <Button asChild className="flex items-center gap-2">
+          <Link href="/admin/courses">
+            <Plus className="h-5 w-5" />
+            Adicionar Curso
+          </Link>
         </Button>
       </div>
 

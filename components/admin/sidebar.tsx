@@ -12,13 +12,15 @@ import {
   LogOut,
   Menu,
   X,
-  FolderOpen
+  FolderOpen,
+  BookOpen
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
 const sidebarLinks = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/courses', label: 'Cursos', icon: BookOpen },
   { href: '/admin/lessons', label: 'Aulas', icon: PlayCircle },
   { href: '/admin/modules', label: 'Módulos', icon: FolderOpen },
   { href: '/admin/students', label: 'Alunos', icon: Users },
